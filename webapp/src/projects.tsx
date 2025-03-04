@@ -549,8 +549,8 @@ class HeroBanner extends data.Component<ISettingsProps, HeroBannerState> {
                         this.handleCardClick
                     )}
                 </div>}
-                {isGallery && <div key="cards" className="dots">
-                    {cards.map((card, i) => <button key={"dot" + i} className={`ui button empty circular label  clear ${i === cardIndex && "active"}`}
+                {isGallery && <div key="cards" className="dots" tabIndex={0}>
+                    {cards.map((card, i) => <button key={"dot" + i} tabIndex={-1} className={`ui button empty circular label  clear ${i === cardIndex && "active"}`}
                         onClick={handleSetCard(i)} aria-label={lf("View {0} hero image", card.title || card.name)} title={lf("View {0} hero image", card.title || card.name)}>
                     </button>)}
                 </div>}
