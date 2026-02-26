@@ -3713,11 +3713,12 @@ export class ProjectView
                 break;
             case SimState.Running:
                 this.stopSimulator(false, opts);
+                this.ariaAnnounce(lf("Simulator stopped"), "assertive", "status");
                 break;
             default:
                 this.maybeShowPackageErrors(true);
                 this.startSimulator(opts);
-                if (!this.state.fullscreen && opts && opts.clickTrigger) getBoardView().focus();
+                this.ariaAnnounce(lf("Simulator running"), "assertive", "status");
                 break;
         }
     }
@@ -3929,9 +3930,6 @@ export class ProjectView
         } else {
             simulator.driver.restart(); // fast restart
         }
-        if (!this.state.fullscreen) {
-            getBoardView().focus();
-        }
         if (!isDebug) {
             this.blocksEditor.clearBreakpoints();
         }
@@ -4053,6 +4051,7 @@ export class ProjectView
             && pxt.appTarget.simulator
             && !!pxt.appTarget.simulator.emptyRunCode
             && !this.isBlocksEditor();
+        if (this.firstRun) this.ariaAnnounce(lf("Simulator running"), "assertive", "status");
         if (this.firstRun && pxt.BrowserUtils.isSafari()) this.setMute(pxt.editor.MuteState.Disabled);
 
         pxt.debug(`sim: start run (autorun ${this.state.autoRun}, first ${this.firstRun})`)
@@ -5277,6 +5276,15 @@ export class ProjectView
         });
 
         setTimeout(() => this.clearUserPoke(), 10000);
+    }
+
+    ariaAnnounce(msg: string, assertiveness?: string, role?: string) {
+        const el = document.getElementById("aria-announce");
+        if (el) {
+            el.setAttribute("role", role ?? null);
+            el.ariaLive = assertiveness ?? "polite";
+            el.textContent = msg;
+        }
     }
 
     ///////////////////////////////////////////////////////////
