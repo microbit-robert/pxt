@@ -1,6 +1,7 @@
 import * as Blockly from "blockly";
 import { InlineSvgsExtensionBlock } from "../functions";
 import { FieldImageNoText } from "../../fields/field_imagenotext";
+import { maybeFocusMutatorButton } from "../../utils";
 
 
 type IfElseMixinType = typeof IF_ELSE_MIXIN;
@@ -15,6 +16,7 @@ const IF_ELSE_MIXIN = {
     valueConnections_: [] as Blockly.Connection[],
     statementConnections_: [] as Blockly.Connection[],
     elseStatementConnection_: null as Blockly.Connection,
+    addButton: null as Blockly.Input | null,
     /**
      * Create XML to represent the number of else-if and else inputs.
      * @return {Element} XML storage element.
@@ -82,6 +84,10 @@ const IF_ELSE_MIXIN = {
             this.elseCount_--;
         };
         this.update_(update);
+        // Focus the condition of the branch before the one just removed.
+        const focusIndex = this.elseifCount_;
+        const inputName = focusIndex === 0 ? 'IF0' : 'IF' + focusIndex;
+        maybeFocusMutatorButton(this.getInput(inputName)?.connection?.targetBlock() as Blockly.BlockSvg);
     },
     addElseIf_: function (this: IfElseBlock) {
         const update = () => {
@@ -94,6 +100,10 @@ const IF_ELSE_MIXIN = {
             this.elseifCount_--;
         };
         this.update_(update, arg);
+        // Focus the condition of the branch before the one just removed.
+        const prevIndex = arg - 1;
+        const inputName = prevIndex === 0 ? 'IF0' : 'IF' + prevIndex;
+        maybeFocusMutatorButton(this.getInput(inputName)?.connection?.targetBlock() as Blockly.BlockSvg);
     },
     update_: function (this: IfElseBlock, update: () => void, arg?: number) {
         Blockly.Events.setGroup(true);
@@ -186,9 +196,11 @@ const IF_ELSE_MIXIN = {
                     if (!that.elseifCount_) that.elseifCount_ = 0;
                     that.addElseIf_();
                 }
+                maybeFocusMutatorButton(that.addButton?.fieldRow[0]);
+                that.addButton = null;
             };
         }();
-        this.appendDummyInput('ADDBUTTON')
+        this.addButton = this.appendDummyInput('ADDBUTTON')
             .appendField(
                 new FieldImageNoText(this.ADD_IMAGE_DATAURI, 24, 24, "*", addElseIf, false));
     },
