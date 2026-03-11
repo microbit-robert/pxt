@@ -192,6 +192,7 @@ export const SoundControls = (props: SoundControlsProps) => {
                 <RadioButtonGroup
                     className="common-radio-buttons"
                     id="waveform-select"
+                    ariaLabel={pxt.U.lf("Waveform")}
                     choices={waveformOptions}
                     selectedId={sound.wave}
                     onChoiceSelected={onWaveformSelected}
@@ -208,7 +209,7 @@ export const SoundControls = (props: SoundControlsProps) => {
                     >
                         <Input
                             id="sound-duration-input"
-                            initialValue={sound.duration + ""}
+                            initialValue={sound.duration.toString()}
                             className="sound-duration-input"
                             onEnterKey={onDurationChange}
                             treatSpaceAsEnter={true}
@@ -237,7 +238,7 @@ export const SoundControls = (props: SoundControlsProps) => {
                         {pxt.U.lf("Frequency")}
                     </span>
                     <div className="dropdown-and-label">
-                        <span className="sound-label">
+                        <span className="sound-label" aria-hidden="true">
                             {pxt.U.lf("Effect")}
                         </span>
                         <BlocklyKeyboardIntercept
@@ -248,6 +249,7 @@ export const SoundControls = (props: SoundControlsProps) => {
                         >
                             <Dropdown
                                 id="effect-dropdown"
+                                getAriaLabel={(value: string) => pxt.U.lf("{0}, Effect", value)}
                                 className="icon-preview"
                                 selectedId={sound.effect}
                                 onItemSelected={onEffectSelected}
@@ -256,7 +258,7 @@ export const SoundControls = (props: SoundControlsProps) => {
                         </BlocklyKeyboardIntercept>
                     </div>
                     <div className="dropdown-and-label">
-                        <span className="sound-label">
+                        <span className="sound-label" aria-hidden="true">
                             {pxt.U.lf("Interpolation")}
                         </span>
                         <BlocklyKeyboardIntercept
@@ -267,6 +269,7 @@ export const SoundControls = (props: SoundControlsProps) => {
                         >
                             <Dropdown
                                 id="interpolation-dropdown"
+                                getAriaLabel={(value: string) => pxt.U.lf("{0}, Interpolation", value)}
                                 className="icon-preview hang-left"
                                 selectedId={sound.interpolation}
                                 onItemSelected={onInterpolationSelected}
@@ -278,7 +281,7 @@ export const SoundControls = (props: SoundControlsProps) => {
                 <DraggableGraph
                     min={1}
                     max={pxt.assets.MAX_FREQUENCY}
-                    ariaLabel={lf("Frequency over time")}
+                    ariaLabel={lf("Frequency over time in hertz")}
                     aspectRatio={3}
                     valueUnits={pxt.U.lf("Hz")}
                     points={[sound.startFrequency, sound.endFrequency]}
