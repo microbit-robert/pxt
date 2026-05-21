@@ -364,6 +364,7 @@ export class SettingsMenu extends data.Component<SettingsMenuProps, SettingsMenu
         const simCollapseText = headless ? lf("Toggle the File Explorer") : lf("Toggle the simulator");
         const extDownloadMenuItems = pxt.commands.getDownloadMenuItems?.() || [];
 
+        const pxtjson = pkg.mainEditorPkg()?.getKsPkg()?.config;
 
         const items: MenuItem[] = [];
         if (showHome) {
@@ -464,7 +465,7 @@ export class SettingsMenu extends data.Component<SettingsMenuProps, SettingsMenu
             });
         }
 
-        if (targetTheme.timeMachine) {
+        if (targetTheme.timeMachine && !(pxtjson?.disableHistory)) {
             items.push({
                 role: "menuitem",
                 leftIcon: "icon history",

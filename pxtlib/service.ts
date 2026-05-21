@@ -901,8 +901,12 @@ namespace ts.pxtc {
         "weight",
         "imageLiteral",
         "gridLiteral",
+        "colorGridLiteral",
         "topblockWeight",
-        "inlineInputModeLimit"
+        "inlineInputModeLimit",
+        "gridLiteralVerticalSpacing",
+        "gridLiteralHorizontalSpacing",
+        "gridLiteralBorderRadius",
     ];
 
     const booleanAttributes: (keyof CommentAttrs)[] = [
@@ -923,6 +927,7 @@ namespace ts.pxtc {
         "argsNullable",
         "compileHiddenArguments",
         "expandArgumentsInToolbox",
+        "gridLiteralUseProjectPalette"
     ];
 
     export function parseCommentString(cmt: string): CommentAttrs {
@@ -1743,6 +1748,7 @@ namespace ts.pxtc.service {
         blocks?: BlocksOptions;
         extensions?: ExtensionsOptions;
         projectSearch?: ProjectSearchOptions;
+        homeSearch?: HomeSearchOptions;
         snippet?: SnippetOptions;
         runtime?: pxt.RuntimeOptions;
         light?: boolean; // in light mode?
@@ -1808,6 +1814,19 @@ namespace ts.pxtc.service {
     export interface ProjectSearchInfo {
         name: string;
         id?: string;
+    }
+
+    export interface HomeSearchOptions {
+        term: string;
+        entries: HomeSearchInfo[];
+    }
+
+    export interface HomeSearchInfo {
+        id: string;
+        name: string;
+        description?: string;
+        tags?: string;
+        searchTerms?: string;
     }
 
     export interface BlocksOptions {
