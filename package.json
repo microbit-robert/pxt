@@ -60,8 +60,8 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
-    "@blockly/field-grid-dropdown": "6.0.4",
-    "@blockly/plugin-workspace-search": "10.1.2",
+    "@blockly/field-grid-dropdown": "13.1.0",
+    "@blockly/plugin-workspace-search": "13.1.0",
     "@crowdin/crowdin-api-client": "^1.33.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@microsoft/applicationinsights-web": "^2.8.11",
@@ -150,12 +150,6 @@
     "yargs": "^17.7.2"
   },
   "overrides": {
-    "@blockly/field-grid-dropdown": {
-      "blockly": "13.1.0"
-    },
-    "@blockly/plugin-workspace-search": {
-      "blockly": "13.1.0"
-    },
     "combine-source-map": {
       "source-map": "0.4.4"
     },
